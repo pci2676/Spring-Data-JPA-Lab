@@ -9,7 +9,7 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath "io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE"
-//		classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10"
+		classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10"
 	}
 }
 
@@ -49,3 +49,41 @@ subprojects {
 	}
 
 }
+
+def queryDslProjects = [project(':fetch-paging')]
+configure(queryDslProjects) {
+	apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
+	dependencies {
+		implementation 'com.querydsl:querydsl-jpa'
+	}
+
+	def querydslSrcDir = 'src/main/generated'
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+		querydsl.extendsFrom compileClasspath
+	}
+
+	compileQuerydsl {
+		options.annotationProcessorPath = configurations.querydsl
+	}
+
+	querydsl {
+		library = "com.querydsl:querydsl-apt"
+		jpa = true
+		querydslSourcesDir = querydslSrcDir
+	}
+
+	sourceSets {
+		main {
+			java {
+				srcDirs = ['src/main/java', querydslSrcDir]
+			}
+		}
+	}
+
+}
+
