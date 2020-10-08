@@ -1,3 +1,4 @@
 rootProject.name = 'bomjpa'
+include 'fetch-limit'
 include 'fetch-paging'
 

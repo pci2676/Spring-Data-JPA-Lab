@@ -50,7 +50,7 @@ subprojects {
 
 }
 
-def queryDslProjects = [project(':fetch-paging')]
+def queryDslProjects = [project(':fetch-limit'), project(':fetch-paging')]
 configure(queryDslProjects) {
 	apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
