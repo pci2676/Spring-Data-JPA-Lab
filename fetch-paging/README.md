@@ -1,4 +1,6 @@
 # FETCH JOIN 과 LIMIT
+예제코드(+ 테스트코드)는 [Github](https://github.com/pci2676/Spring-Data-JPA-Lab/tree/master/fetch-paging)에서 확인할 수 있습니다.
+
 **결론부터 말하면 One에서 Many를 fetch 해야하는 경우 limit과 같은 쿼리를 포함하면 원하는 대로 결과나 나오지 않습니다.**
 
 Article 1<->N Comment 관계의 엔티티 상황에서  
