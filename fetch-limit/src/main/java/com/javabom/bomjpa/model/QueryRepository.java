@@ -1,7 +1,7 @@
 package com.javabom.bomjpa.model;
 
-import com.javabom.bomjpa.service.ArticleComments;
-import com.javabom.bomjpa.service.QArticleComments;
+import com.javabom.bomjpa.dto.ArticleComments;
+import com.javabom.bomjpa.dto.QArticleComments;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

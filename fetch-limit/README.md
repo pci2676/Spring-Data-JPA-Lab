@@ -8,9 +8,9 @@ Article 1<->N Comment 관계의 엔티티 상황에서
 아래와 같이 Article을 기준(OneToMany)으로 fetch join과 limit을 같이 사용하면 안됩니다. 
 
 ```java
-public List<Article> findArticleByIdLimit5Lazy(Long id) {
+public List<Article> findArticleByIdLimit5Fetch(Long id) {
         return queryFactory.selectFrom(article)
-                .innerJoin(article.comments, comment)
+                .innerJoin(article.comments, comment).fetchJoin()
                 .where(article.id.eq(id))
                 .limit(5)
                 .fetch();
@@ -20,7 +20,7 @@ public List<Article> findArticleByIdLimit5Lazy(Long id) {
 `HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!`  
 
 과 같은 경고 문구가 발생합니다.  
-쿼라 결과가 메모리에 적재되어서 문제가 발생할 수 있다는 경고 문구입니다.
+쿼 결과가 메모리에 적재되어서 문제가 발생할 수 있다는 경고 문구입니다.
 이게 왜 문제가 되는지 실제로 쿼리를 확인해 보면
 
 ```sql
@@ -82,7 +82,5 @@ public ArticleComments findArticleWithTop5Comments(Long articleId) {
 이렇게 하면 불필요한 컬럼의 정보를 가져오면서 발생하는 네트워크 비용도 절감되고 CQRS 개념을 지키는 코드의 작성도 가능해질 것 입니다.
 
 ## 맺으며
-프로젝트를 진행하면서 동욱님이 fetch joint 과 limit을 같이 사용하면 어떻게 되는지 아느냐고 질문해주셨는데 부끄럽게도 제대로 답변하지 못했습니다.  
+프로젝트를 진행하면서 동욱님이 fetch join 과 limit을 같이 사용하면 어떻게 되는지 아느냐고 질문해주셨는데 부끄럽게도 제대로 답변하지 못했습니다.  
 다행히 이제 어떠한 문제가 발생하고 어떻게 해결해야 하는지 알아낸 것 같아서 마음이 놓입니다.
-
-다음 포스트는 limit을 사용하는 paging을 해야할 때 어떻게 해야하는지 알아보도록 하겠습니다.

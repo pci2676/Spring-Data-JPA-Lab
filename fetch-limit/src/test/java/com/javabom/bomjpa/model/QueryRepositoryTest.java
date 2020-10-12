@@ -1,6 +1,7 @@
 package com.javabom.bomjpa.model;
 
-import com.javabom.bomjpa.service.ArticleComments;
+import com.javabom.bomjpa.FetchLimitApplication;
+import com.javabom.bomjpa.dto.ArticleComments;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(classes = FetchLimitApplication.class)
 class QueryRepositoryTest {
     @Autowired
     private QueryRepository queryRepository;

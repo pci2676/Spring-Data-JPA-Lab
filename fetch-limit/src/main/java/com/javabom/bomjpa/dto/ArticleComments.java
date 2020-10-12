@@ -1,4 +1,4 @@
-package com.javabom.bomjpa.service;
+package com.javabom.bomjpa.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
