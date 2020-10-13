@@ -1,4 +1,4 @@
-rootProject.name = 'com.javabom.bomjpa'
+rootProject.name = 'bomjpa'
 include 'fetch-limit'
 include 'querydsl-projection'
 include 'one-to-one'
