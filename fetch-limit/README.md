@@ -42,6 +42,12 @@ Hibernate:
 위와 같이 limit 절이 포함되어 있지 않은 것을 확인할 수 있습니다.  
 limit 키워드가 있어도 풀 스캔을 통해 가져온 엔티티를 어플리케이션 레벨에서 걸러내려는 것이기 때문에 그렇습니다.
 
+실제로 `@Query` 어노테이션을 이용해서 아래와 같이 쿼리를 작성해보면
+```java
+@Query("SELECT a FROM Article a INNER JOIN FETCH a.comments LIMIT 1")
+```
+LIMIT 절을 적어준 것 때문에 `QuerySyntaxException`이 발생하게 되는 것을 확인 할 수 있습니다. JPQL Fetch 쿼리는 LIMIT을 지원하지 않습니다.
+
 이러한 경우 limit은 어플리케이션이 카티젼 프로덕트의 결과를 limit하는 것이 아닙니다.  
 from 절에 걸린 entity를 limit하기 때문에 comment는 전체 풀스캔 한 결과가 나옵니다.
 
@@ -79,7 +85,7 @@ public ArticleComments findArticleWithTop5Comments(Long articleId) {
     }
 ```  
 
-이렇게 하면 불필요한 컬럼의 정보를 가져오면서 발생하는 네트워크 비용도 절감되고 CQRS 개념을 지키는 코드의 작성도 가능해질 것 입니다.
+이렇게 하면 불필요한 컬럼의 정보를 가져오면서 발생하는 네트워크 비용도 절감되고 명령은 엔티티로 조회는 DTO로 나누면서 CQRS 개념을 지키는 코드의 작성도 가능해질 것 입니다.
 
 ## 맺으며
 프로젝트를 진행하면서 동욱님이 fetch join 과 limit을 같이 사용하면 어떻게 되는지 아느냐고 질문해주셨는데 부끄럽게도 제대로 답변하지 못했습니다.  

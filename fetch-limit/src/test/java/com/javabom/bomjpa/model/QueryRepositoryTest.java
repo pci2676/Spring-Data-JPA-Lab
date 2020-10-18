@@ -2,6 +2,7 @@ package com.javabom.bomjpa.model;
 
 import com.javabom.bomjpa.FetchLimitApplication;
 import com.javabom.bomjpa.dto.ArticleComments;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,9 @@ class QueryRepositoryTest {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     private Article savedArticle;
 
@@ -67,12 +71,18 @@ class QueryRepositoryTest {
         assertThat(findComments).hasSize(5);
     }
 
-    @DisplayName("단순히 게시글 1 댓글 5개의 조회를 원한다면 DTO로 조회성 쿼리를 받아오자")
+    @DisplayName("게시글 1 댓글 5개의 조회를 원한다면 DTO로 조회성 쿼리를 받아오자")
     @Test
     void fetchPaging4() {
         ArticleComments articleComments = queryRepository.findArticleWithTop5Comments(savedArticle.getId());
 
         //then
         assertThat(articleComments.getCommentContents()).hasSize(5);
+    }
+
+    @AfterEach
+    void tearDown() {
+        commentRepository.deleteAll();
+        articleRepository.deleteAll();
     }
 }
