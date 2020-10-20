@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,16 +30,16 @@ class QueryRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Article article = Article.builder()
-                .contents("글")
-                .build();
-
-        for (int i = 0; i < 6; i++) {
-            Comment comment = new Comment("댓글" + i);
-            article.addComment(comment);
+        List<Article> articles = new ArrayList<>();
+        for (int i = 1; i <= 6; i++) {
+            Article article = new Article("글" + i);
+            articles.add(article);
+            for (int j = 1; j <= 6; j++) {
+                article.addComment(new Comment("댓글" + j));
+            }
         }
-
-        savedArticle = articleRepository.save(article);
+        articleRepository.saveAll(articles);
+        savedArticle = articles.get(0);
     }
 
     @DisplayName("Lazy 로드로 limit 할 때 내가 원하는 만큼 comment를 limit 하지 않는다.")
@@ -52,13 +53,23 @@ class QueryRepositoryTest {
         assertThat(findArticle.get(0).getComments()).hasSize(6);
     }
 
-    @DisplayName("fetch join으로 limit 할 때 내가 원하는 만큼 comment를 limit 하지 않는다. 어플리케이션 레벨에서 article만 limit한 개수만큼 가져온다")
+    @DisplayName("fetch join으로 limit 할 때 내가 원하는 만큼 comment를 limit 하지 않는다.")
     @Test
     void fetchPaging2() {
         List<Article> findArticle = queryRepository.findArticleByIdLimit5Fetch(savedArticle.getId());
 
         //then
         assertThat(findArticle).hasSize(1);
+        assertThat(findArticle.get(0).getComments()).hasSize(6);
+    }
+
+    @DisplayName("fetch join으로 limit 할 때 내가 원하는 만큼 comment를 limit 하지 않는다. 어플리케이션 레벨에서 article만 limit한 개수만큼 가져온다")
+    @Test
+    void fetchPaging22() {
+        List<Article> findArticle = queryRepository.findArticle();
+
+        //then
+        assertThat(findArticle).hasSize(5);
         assertThat(findArticle.get(0).getComments()).hasSize(6);
     }
 

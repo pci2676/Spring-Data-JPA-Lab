@@ -27,9 +27,17 @@ public class QueryRepository {
     }
 
     public List<Article> findArticleByIdLimit5Fetch(Long id) {
-        return queryFactory.selectFrom(article) // selectFrom 으로 했을때는 엔티티를 대상으로
+        return queryFactory.selectFrom(article)
                 .innerJoin(article.comments, comment).fetchJoin()
                 .where(article.id.eq(id))
+                .limit(5)
+                .fetch();
+    }
+
+    public List<Article> findArticle() {
+        return queryFactory.selectFrom(article)
+                .innerJoin(article.comments, comment).fetchJoin()
+                .offset(0)
                 .limit(5)
                 .fetch();
     }
