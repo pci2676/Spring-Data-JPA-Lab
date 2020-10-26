@@ -13,8 +13,11 @@ public class ProductPaginationService {
 
     private final ProductQueryRepository productQueryRepository;
 
-    public List<ProductPaginationDto> getProductPaginationLegacy(String name, int pageNumber, int pageSize) {
-        return productQueryRepository.paginationLegacy(name, pageNumber, pageSize);
+    public List<ProductPaginationDto> getProductPaginationLegacy(String prefixName, int pageNumber, int pageSize) {
+        return productQueryRepository.paginationLegacy(prefixName, pageNumber, pageSize);
     }
 
+    public List<ProductPaginationDto> getProductPagination(final Long productId, final String prefixName, final int pageSize) {
+        return productQueryRepository.paginationNoOffsetBuilder(productId, prefixName, pageSize);
+    }
 }
