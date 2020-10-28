@@ -19,7 +19,7 @@ public class ProductQueryRepository {
 
     public List<ProductPaginationDto> paginationLegacy(String name, int pageNumber, int pageSize) {
         return queryFactory
-                .select(new QProductPaginationDto(product.id, product.name, product.money))
+                .select(new QProductPaginationDto(product.id, product.name, product.price))
                 .from(product)
                 .where(
                         product.name.like(name + "%")
@@ -32,7 +32,7 @@ public class ProductQueryRepository {
 
     public List<ProductPaginationDto> paginationNoOffsetBuilder(Long id, String name, int pageSize) {
         return queryFactory
-                .select(new QProductPaginationDto(product.id, product.name, product.money))
+                .select(new QProductPaginationDto(product.id, product.name, product.price))
                 .from(product)
                 .where(
                         lessThanProductId(id),

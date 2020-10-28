@@ -22,10 +22,10 @@ public class Product {
 
     private String name;
 
-    private Long money;
+    private Long price;
 
-    public Product(final String name, final Long money) {
+    public Product(final String name, final Long price) {
         this.name = name;
-        this.money = money;
+        this.price = price;
     }
 }
