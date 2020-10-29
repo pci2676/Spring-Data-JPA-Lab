@@ -3,4 +3,5 @@ include 'fetch-limit'
 include 'querydsl-projection'
 include 'one-to-one'
 include 'no-offset'
+include 'covering-index'
 

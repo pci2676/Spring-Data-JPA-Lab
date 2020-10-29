@@ -52,6 +52,7 @@ subprojects {
 
 def queryDslProjects = [project(':fetch-limit'),
 						project(':querydsl-projection'),
+						project(':covering-index'),
 						project(':no-offset')]
 configure(queryDslProjects) {
 	apply plugin: "com.ewerk.gradle.plugins.querydsl"
