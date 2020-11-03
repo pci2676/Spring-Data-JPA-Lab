@@ -4,4 +4,5 @@ include 'querydsl-projection'
 include 'one-to-one'
 include 'no-offset'
 include 'covering-index'
+include 'fix-page'
 
