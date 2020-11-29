@@ -5,4 +5,5 @@ include 'one-to-one'
 include 'no-offset'
 include 'covering-index'
 include 'fix-page'
+include 'one-way-one-to-many'
 
