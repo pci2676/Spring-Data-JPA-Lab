@@ -6,4 +6,5 @@ include 'no-offset'
 include 'covering-index'
 include 'fix-page'
 include 'one-way-one-to-many'
+include 'cache-first-page'
 
