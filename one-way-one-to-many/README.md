@@ -1,5 +1,7 @@
 # 단방향 @OneToMany 관계에서 발생 할 수 있는 문제점
 
+모든 예제코드는 [Github](https://github.com/pci2676/Spring-Data-JPA-Lab/tree/master/one-way-one-to-many)에서 확인 할 수 있다.
+
 김영한님의 JPA 책을 공부하면 단방향 `@OneToMany`를 사용하는 것을 지양하라고 한다.  
 외래키 관리의 주체가 아닌 쪽에서 연관 관계를 관리 하게 됨으로써 발생하는 문제들이 있기 때문인데 이 부분에 대해 살펴보고자 한다.
 
