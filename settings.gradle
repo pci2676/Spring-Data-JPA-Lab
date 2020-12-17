@@ -7,4 +7,6 @@ include 'covering-index'
 include 'fix-page'
 include 'one-way-one-to-many'
 include 'cache-first-page'
+include 'cascade-type'
+include 'generated-value'
 
