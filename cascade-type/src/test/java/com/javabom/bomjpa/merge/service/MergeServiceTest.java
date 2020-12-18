@@ -49,7 +49,7 @@ class MergeServiceTest {
         assertThat(mergePhones).hasSize(0);
     }
 
-    @DisplayName("도우미 메서드가 있다면 영속화 한다.")
+    @DisplayName("Merge는 도우미 메서드가 있어도 영속화 하지 못한다.")
     @Test
     void addPhoneWithHelper() {
         MergePerson mergePerson = mergePersonRepository.save(new MergePerson("name"));
@@ -63,6 +63,6 @@ class MergeServiceTest {
 
         List<MergePhone> mergePhones = mergePhoneRepository.findAll();
 
-        assertThat(mergePhones).hasSize(4);
+        assertThat(mergePhones).isEmpty();
     }
 }

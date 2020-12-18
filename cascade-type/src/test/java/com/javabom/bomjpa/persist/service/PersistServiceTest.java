@@ -78,10 +78,14 @@ class PersistServiceTest {
 
         List<PersistPhone> phones = persistPhoneRepository.findAll();
 
-        assertThat(phones).hasSize(4);
-        assertThat(phones.get(0).getPersistPerson()).isNotNull();
+        assertAll("객체 그래프의 탐색이 가능하다.",
+                () -> assertThat(phones).hasSize(4),
+                () -> assertThat(phones.get(0).getPersistPerson()).isNotNull()
+        );
 
         List<PersistPhone> findPersistPhones = persistPhoneRepository.findAllByPersistPerson(persistPerson);
-        assertThat(findPersistPhones).isNotEmpty();
+        assertAll("외래키도 정상적으로 저장되어있다.",
+                () -> assertThat(findPersistPhones).isNotEmpty()
+        );
     }
 }
