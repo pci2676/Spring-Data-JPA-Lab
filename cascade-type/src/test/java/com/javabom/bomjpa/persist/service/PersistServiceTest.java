@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest
 class PersistServiceTest {
@@ -29,11 +30,11 @@ class PersistServiceTest {
 
     @AfterEach
     void tearDown() {
-        persistPhoneRepository.deleteAllInBatch();
-        persistPersonRepository.deleteAllInBatch();
+        persistPhoneRepository.deleteAll();
+        persistPersonRepository.deleteAll();
     }
 
-    @DisplayName("Persist 로 설정하면 도우미 메서드가 필요없다.")
+    @DisplayName("Persist 로 영속화는 되지만 도우미 메서드는 외래키 저장을 위해 필요하다.")
     @Test
     void addPhone() {
         PersistPerson persistPerson = persistPersonRepository.save(new PersistPerson("name"));
@@ -47,6 +48,40 @@ class PersistServiceTest {
 
         List<PersistPhone> phones = persistPhoneRepository.findAll();
 
+        assertAll("FK가 저장되지 않아 객체 그래프 탐색이 불가능하다.",
+                () -> assertThat(phones).hasSize(4),
+                () -> assertThat(phones.get(0).getPersistPerson()).isNull()
+        );
+
+        List<PersistPhone> allPersistPhone = persistPhoneRepository.findAll();
+        assertAll("하지만 영속화는 되어있다.",
+                () -> assertThat(allPersistPhone).hasSize(4)
+        );
+
+        List<PersistPhone> findPersistPhones = persistPhoneRepository.findAllByPersistPerson(persistPerson);
+        assertAll("그렇지만 외래키는 null인 상태이다.",
+                () -> assertThat(findPersistPhones).isEmpty()
+        );
+    }
+
+    @DisplayName("Persist 도 결국 외래키 때문에 도우미 메서드는 필요하다.")
+    @Test
+    void addPhoneWithHelper() {
+        PersistPerson persistPerson = persistPersonRepository.save(new PersistPerson("name"));
+
+        persistService.addPhoneWithHelper(persistPerson.getId(), Arrays.asList(
+                "010",
+                "011",
+                "012",
+                "013"
+        ));
+
+        List<PersistPhone> phones = persistPhoneRepository.findAll();
+
         assertThat(phones).hasSize(4);
+        assertThat(phones.get(0).getPersistPerson()).isNotNull();
+
+        List<PersistPhone> findPersistPhones = persistPhoneRepository.findAllByPersistPerson(persistPerson);
+        assertThat(findPersistPhones).isNotEmpty();
     }
 }

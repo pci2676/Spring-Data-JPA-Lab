@@ -28,4 +28,9 @@ public class PersistPerson {
     public void add(PersistPhone persistPhone) {
         this.persistPhones.add(persistPhone);
     }
+
+    public void addWithHelper(PersistPhone persistPhone) {
+        this.persistPhones.add(persistPhone);
+        persistPhone.placePerson(this);
+    }
 }

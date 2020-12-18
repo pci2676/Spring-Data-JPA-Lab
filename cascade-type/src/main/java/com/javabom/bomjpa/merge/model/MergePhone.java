@@ -1,4 +1,4 @@
-package com.javabom.bomjpa.persist.model;
+package com.javabom.bomjpa.merge.model;
 
 
 import lombok.AccessLevel;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class PersistPhone {
+public class MergePhone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
@@ -18,13 +18,13 @@ public class PersistPhone {
     private String number;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private PersistPerson persistPerson;
+    private MergePerson mergePerson;
 
-    public PersistPhone(String number) {
+    public MergePhone(String number) {
         this.number = number;
     }
 
-    public void placePerson(PersistPerson persistPerson) {
-        this.persistPerson = persistPerson;
+    public void place(MergePerson mergePerson) {
+        this.mergePerson = mergePerson;
     }
 }

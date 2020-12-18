@@ -21,4 +21,12 @@ public class PersistService {
 
         numbers.forEach(number -> persistPerson.add(new PersistPhone(number)));
     }
+
+    @Transactional
+    public void addPhoneWithHelper(Long id, List<String> numbers) {
+        PersistPerson persistPerson = persistPersonRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("사람 없음"));
+
+        numbers.forEach(number -> persistPerson.addWithHelper(new PersistPhone(number)));
+    }
 }
