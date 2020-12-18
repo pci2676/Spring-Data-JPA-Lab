@@ -30,4 +30,13 @@ public class MergeService {
         numbers.forEach(number -> mergePerson.addWithHelper(new MergePhone(number)));
     }
 
+    @Transactional
+    public void addPhoneWithHelperAndSave(Long id, List<String> numbers) {
+        MergePerson mergePerson = mergePersonRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("사람 없음"));
+
+        numbers.forEach(number -> mergePerson.addWithHelper(new MergePhone(number)));
+
+        mergePersonRepository.save(mergePerson);
+    }
 }

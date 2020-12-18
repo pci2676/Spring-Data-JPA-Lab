@@ -34,7 +34,7 @@ class PersistServiceTest {
         persistPersonRepository.deleteAll();
     }
 
-    @DisplayName("Persist 로 영속화는 되지만 도우미 메서드는 외래키 저장을 위해 필요하다.")
+    @DisplayName("Persist 로 영속화는 되지만 도우미 메서드는 외래키 저장을 위해 필요하다. 더티체킹은 된다.")
     @Test
     void addPhone() {
         PersistPerson persistPerson = persistPersonRepository.save(new PersistPerson("name"));
@@ -64,7 +64,7 @@ class PersistServiceTest {
         );
     }
 
-    @DisplayName("Persist 도 결국 외래키 때문에 도우미 메서드는 필요하다.")
+    @DisplayName("Persist 도 결국 외래키 때문에 도우미 메서드는 필요하다. 더티체킹은 된다.")
     @Test
     void addPhoneWithHelper() {
         PersistPerson persistPerson = persistPersonRepository.save(new PersistPerson("name"));

@@ -32,7 +32,7 @@ class MergeServiceTest {
         mergePersonRepository.deleteAll();
     }
 
-    @DisplayName("Merge는 도우미 메서드 없이 영속화 되지 않는다.")
+    @DisplayName("Merge는 도우미 메서드 없이 영속화 되지 않는다. 더티체킹이 안됌")
     @Test
     void addPhone() {
         MergePerson mergePerson = mergePersonRepository.save(new MergePerson("name"));
@@ -49,7 +49,7 @@ class MergeServiceTest {
         assertThat(mergePhones).hasSize(0);
     }
 
-    @DisplayName("Merge는 도우미 메서드가 있어도 영속화 하지 못한다.")
+    @DisplayName("Merge는 도우미 메서드가 있어도 영속화 하지 못한다. 더티체킹이 안됌")
     @Test
     void addPhoneWithHelper() {
         MergePerson mergePerson = mergePersonRepository.save(new MergePerson("name"));
@@ -64,5 +64,22 @@ class MergeServiceTest {
         List<MergePhone> mergePhones = mergePhoneRepository.findAll();
 
         assertThat(mergePhones).isEmpty();
+    }
+
+    @DisplayName("Merge 는 save 할 때 같이 영속화를 해준다.")
+    @Test
+    void addPhoneWithHelperAndSave() {
+        MergePerson mergePerson = mergePersonRepository.save(new MergePerson("name"));
+
+        mergeService.addPhoneWithHelperAndSave(mergePerson.getId(), Arrays.asList(
+                "010",
+                "011",
+                "012",
+                "013"
+        ));
+
+        List<MergePhone> mergePhones = mergePhoneRepository.findAll();
+
+        assertThat(mergePhones).hasSize(4);
     }
 }
