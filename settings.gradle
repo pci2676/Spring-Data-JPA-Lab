@@ -10,4 +10,5 @@ include 'cache-first-page'
 include 'cascade-type'
 include 'generated-value'
 include 'first-collection'
+include 'batch-insert'
 
