@@ -25,15 +25,6 @@ public class StatDetail {
     private Long seq;
 
     private Long score;
-    private Long score1;
-    private Long score2;
-    private Long score3;
-    private Long score4;
-    private Long score5;
-    private Long score6;
-    private Long score7;
-    private Long score8;
-    private Long score9;
 
     @ManyToOne
     @JoinColumn(name = "stat_id")
