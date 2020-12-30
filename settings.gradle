@@ -10,4 +10,5 @@ include 'cache-first-page'
 include 'cascade-type'
 include 'first-collection'
 include 'batch-insert'
+include 'transaction-propagation'
 
