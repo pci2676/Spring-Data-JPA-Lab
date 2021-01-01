@@ -1,11 +1,32 @@
-package com.javabom.bomjpa.model;
+## Spring Data Jpa 에서 bulk insert 하기
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+### 환경
+Java 1.8
 
-import javax.persistence.*;
+Spring DATA JPA  
 
+Maria DB 10.4 (Using Docker)
+
+### 필요 설정
+
+- application.yml
+```yml
+spring:
+  jpa:
+    properties:
+      hibernate.jdbc.batch_size: 1000
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+  datasource:
+    hikari:
+      data-source-properties:
+        rewriteBatchedStatements: true
+
+```
+
+- 자식 엔티티는 Sequence table 을 이용한 ID의 TABLE 전략을 이용한다.
+  - ex) StatDetail
+```java
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -38,3 +59,7 @@ public class StatDetail {
         this.stat = stat;
     }
 }
+```
+
+## 주의사항 
+**application.yml 의 batch_size 와 Sequence Table 의 allocationSize 가 같은 값을 가지고 있는것이 좋다.**
