@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmailSender implements Sender {
     private final EmailHistoryRepository emailHistoryRepository;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     @Override
     public void send(String name) {
         emailHistoryRepository.save(new EmailHistory(name));
