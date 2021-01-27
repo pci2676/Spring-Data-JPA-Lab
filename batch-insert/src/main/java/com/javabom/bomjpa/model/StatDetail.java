@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @TableGenerator(
         name = "GENERATOR_STAT_DETAIL",
-        table = "stat_sequence",
+        table = "sequence_table",
         pkColumnName = "sequence_name",
         valueColumnName = "next_val",
         allocationSize = 1000

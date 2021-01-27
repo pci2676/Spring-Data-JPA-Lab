@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS stat_detail
     CONSTRAINT FK_STAT_DETAIL FOREIGN KEY (stat_id) REFERENCES stat (ID)
 ) ENGINE = InnoDB;
 
-CREATE TABLE stat_sequence
+CREATE TABLE sequence_table
 (
     sequence_name varchar(255) NOT NULL PRIMARY KEY COMMENT '시퀀스 이름',
     next_val      bigint       NOT NULL COMMENT '시퀀스 값'

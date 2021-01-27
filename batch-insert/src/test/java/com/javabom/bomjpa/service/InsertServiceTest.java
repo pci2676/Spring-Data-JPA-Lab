@@ -38,7 +38,7 @@ class InsertServiceTest {
         Stat save = statRepository.save(new Stat());
 
         List<Long> scores = new ArrayList<>();
-        for (long score = 1L; score <= 10000; score++) {
+        for (long score = 1L; score <= 10_000; score++) {
             scores.add(score);
         }
         StopWatch stopWatch = new StopWatch();
@@ -51,6 +51,5 @@ class InsertServiceTest {
         //then
         long insertTime = stopWatch.getTotalTimeMillis();
         System.out.println("insert time : " + insertTime + "ms");
-        assertThat(insertTime).isLessThan(3000);
     }
 }
