@@ -1,83 +1,75 @@
-buildscript {
-	ext {
-		springBootVersion = '2.3.4.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-		maven { url "https://plugins.gradle.org/m2/" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath "io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE"
-		classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10"
-	}
+plugins {
+    id "org.springframework.boot" version "2.3.4.RELEASE"
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
 subprojects {
-	group = 'com.javabom'
+    group = 'com.javabom'
 
-	apply plugin: 'java'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-	sourceCompatibility = '1.8'
+    sourceCompatibility = '1.8'
 
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
 
-	dependencies {
-		runtime('com.h2database:h2:1.4.199')
+    dependencies {
+        runtime('com.h2database:h2:1.4.199')
 
-		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		implementation 'org.springframework.boot:spring-boot-starter-web'
-		compileOnly 'org.projectlombok:lombok'
-		annotationProcessor 'org.projectlombok:lombok'
-		testImplementation('org.springframework.boot:spring-boot-starter-test') {
-			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-		}
-	}
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
 
-	test {
-		useJUnitPlatform()
-	}
+    test {
+        useJUnitPlatform()
+    }
 
-	configurations {
-		compileOnly {
-			extendsFrom annotationProcessor
-		}
-	}
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
 }
 
-def queryDslProjects = [project(':fetch-limit'),
-						project(':querydsl-projection'),
-						project(':covering-index'),
-						project(':fix-page'),
-						project(':cache-first-page'),
-						project(':no-offset')]
+def queryDslProjects = [project(":fetch-limit"),
+                        project(":querydsl-projection"),
+                        project(":covering-index"),
+                        project(":fix-page"),
+                        project(":cache-first-page"),
+                        project(":no-offset"),
+]
 configure(queryDslProjects) {
-	apply plugin: "com.ewerk.gradle.plugins.querydsl"
+    apply plugin: "io.spring.dependency-management"
 
-	dependencies {
-		implementation 'com.querydsl:querydsl-jpa'
-	}
+    dependencies {
+        compile("com.querydsl:querydsl-core")
+        compile("com.querydsl:querydsl-jpa")
 
-	def querydslDir = "$buildDir/generated/querydsl"
+        annotationProcessor("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa")
+        annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+        annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+    }
 
-	querydsl {
-		jpa = true
-		querydslSourcesDir = querydslDir
-	}
-	sourceSets {
-		main.java.srcDir querydslDir
-	}
-	configurations {
-		querydsl.extendsFrom compileClasspath
-	}
-	compileQuerydsl {
-		options.annotationProcessorPath = configurations.querydsl
-	}
+    clean {
+        delete file("src/main/generated") // 인텔리제이 Annotation processor 생성물 생성위치
+    }
+
+    /**
+     * 인텔리제이 Annotation processor 에 생성되는 'src/main/generated' 디렉터리 삭제
+     */
+    task cleanGeneatedDir(type: Delete) { // 인텔리제이 annotation processor 가 생성한 Q클래스가 clean 태스크로 삭제되는 게 불편하다면 둘 중에 하나를 선택
+        delete file("src/main/generated")
+    }
 
 }
 
