@@ -110,7 +110,7 @@ allocationSize 가 중요한데 위와 같이 1000으로 지정하면 1건을 �
 
 `hibernate.id.new_generator_mappings: false` 설정이 있는데 스프링 부트 1.5 에서 2로 올라올 때 hibernate 와의 호환성을 위해 있는 옵션이다. 근데 해당 옵션이
 false 가 되어있으면 Sequence Table 의 sequence 생성 전략이 조금 바뀐다. allocation size 가 10 이고 20건을 insert 하면 sequence table 에는 2가
-기록되어있는데, 1은 1~10, 2는 11~20 이렇게 `(value * (allocation size -1 )) ~ (value * allocation size)` 과 같이 계산이 되서 실제 Entity 가 가지고
+기록되어있는데, 1은 1 ~ 10, 2는 11 ~ 20 이렇게 `(value * (allocation size -1 )) ~ (value * allocation size)` 과 같이 계산이 되서 실제 Entity 가 가지고
 있는 키값과 다르기 때문에 계산을 해야한다. 대부분 스프링 2.x 를 쓸테니 해당 옵션은 기본이 true 라 신경 쓸 필요 없겠지만 알아두면 좋을 것 같다.
 
 ## 맺으며
